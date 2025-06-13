@@ -1,6 +1,7 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { supabase } from './config/supabase'
+import { useAuthStore } from './stores/auth'
 
 const user = ref(null)
 const navigation = [
@@ -9,6 +10,8 @@ const navigation = [
   { name: 'Ingredients', to: '/ingredients' },
   { name: 'Admin', to: '/admin' }
 ]
+
+const authStore = useAuthStore()
 
 onMounted(async () => {
   // Check for existing session
@@ -19,6 +22,8 @@ onMounted(async () => {
   supabase.auth.onAuthStateChange((_event, session) => {
     user.value = session?.user || null
   })
+
+  authStore.initialize()
 })
 
 const signInWithGoogle = async () => {

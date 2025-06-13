@@ -1,32 +1,14 @@
 <template>
-  <div class="space-y-6">
+  <div class="space-y-4">
     <!-- Week Navigation -->
-    <v-card>
-      <v-card-text>
-        <div class="d-flex align-center justify-space-between">
-          <v-btn @click="store.previousWeek" variant="outlined">
-            Previous
-          </v-btn>
-
-          <div class="d-flex align-center gap-4">
-            <v-btn
-              @click="goToCurrentWeek"
-              variant="text"
-              :color="isCurrentWeekSelected ? 'primary' : undefined"
-            >
-              This Week
-            </v-btn>
-            <div class="text-h6">
-              {{ format(parseDate(weekDates[0]), 'MMM d') }} - {{ format(parseDate(weekDates[6]), 'MMM d, yyyy') }}
-            </div>
-          </div>
-
-          <v-btn @click="store.nextWeek" variant="outlined">
-            Next
-          </v-btn>
-        </div>
-      </v-card-text>
-    </v-card>
+    <WeekNavigation
+      :start-date="weekDates[0]"
+      :end-date="weekDates[6]"
+      :is-current-week="isCurrentWeekSelected"
+      @previous="store.previousWeek"
+      @next="store.nextWeek"
+      @current="goToCurrentWeek"
+    />
 
     <!-- Loading State -->
     <div v-if="loading" class="d-flex justify-center">
@@ -44,66 +26,49 @@
         v-for="meal in weeklyMeals"
         :key="meal.id"
         cols="12"
-        md="6"
-        lg="4"
+        sm="6"
+        md="4"
       >
-        <v-card
-          class="h-100"
+        <MealCard
+          :meal="meal"
           @click="openMealModal(meal)"
-          hover
-        >
-          <v-card-text>
-            <div class="d-flex justify-space-between align-start">
-              <h3 class="text-h6">{{ meal.name }}</h3>
-              <span class="text-caption">{{ format(parseDate(meal.date), 'EEE, MMM d') }}</span>
-            </div>
-            <p class="text-caption mt-2">{{ meal.time }}</p>
-            <p class="mt-2">{{ meal.description }}</p>
-            
-            <div class="d-flex justify-space-between mt-4">
-              <div class="text-caption">
-                {{ meal.servings }} servings
-              </div>
-              <div class="text-caption">
-                {{ meal.nutrition.per_serving.calories }} cal/serving
-              </div>
-            </div>
-          </v-card-text>
-        </v-card>
+        />
       </v-col>
     </v-row>
 
     <!-- Meal Dialog -->
-    <v-dialog v-model="isModalOpen" max-width="800">
+    <v-dialog v-model="isModalOpen" max-width="800" fullscreen="smAndDown">
       <v-card v-if="selectedMeal">
-        <v-card-title class="d-flex justify-space-between align-center">
+        <v-card-title class="d-flex flex-column flex-sm-row justify-space-between align-start gap-2">
           <div>
-            <span class="text-h4">{{ selectedMeal.name }}</span>
+            <span class="text-h4 text-truncate">{{ selectedMeal.name }}</span>
             <div class="text-caption mt-1">
               {{ format(parseDate(selectedMeal.date), 'EEEE, MMMM d, yyyy') }}
             </div>
           </div>
-          <v-btn
-            v-if="isAuthenticated"
-            icon="mdi-pencil"
-            variant="text"
-            @click="startEditing"
-          ></v-btn>
+          <div class="d-flex align-center gap-2">
+            <v-btn
+              v-if="isAuthenticated"
+              icon="mdi-pencil"
+              variant="text"
+              @click="startEditing"
+            ></v-btn>
+            <v-btn
+              icon="mdi-close"
+              variant="text"
+              @click="closeMealModal"
+            ></v-btn>
+          </div>
         </v-card-title>
 
         <v-card-text>
           <template v-if="!isEditing">
             <v-row>
               <v-col cols="12" md="6">
-                <h4 class="text-h6 mb-4">Ingredients</h4>
-                <v-list>
-                  <v-list-item
-                    v-for="ingredient in selectedMeal.ingredients"
-                    :key="ingredient.name"
-                  >
-                    {{ ingredient.amount }} {{ ingredient.unit }} {{ ingredient.name }}
-                  </v-list-item>
-                </v-list>
+                <IngredientList
+                  :ingredients="selectedMeal.ingredients"
+                  :editable="false"
+                />
               </v-col>
 
               <v-col cols="12" md="6">
@@ -122,22 +87,10 @@
 
             <v-divider class="my-4"></v-divider>
 
-            <h4 class="text-h6 mb-4">Nutrition Information</h4>
-            <v-row>
-              <v-col
-                v-for="(value, key) in selectedMeal.nutrition.per_serving"
-                :key="key"
-                cols="6"
-                md="3"
-              >
-                <v-card variant="outlined">
-                  <v-card-text>
-                    <div class="text-caption">{{ formatNutritionKey(key) }}</div>
-                    <div class="text-h6">{{ value }}</div>
-                  </v-card-text>
-                </v-card>
-              </v-col>
-            </v-row>
+            <NutritionInfo
+              :nutrition="selectedMeal.nutrition"
+              :editable="false"
+            />
           </template>
 
           <template v-else>
@@ -151,7 +104,7 @@
                   ></v-text-field>
                 </v-col>
 
-                <v-col cols="12" md="6">
+                <v-col cols="12" sm="6">
                   <v-text-field
                     v-model="editingMeal.time"
                     label="Preparation Time"
@@ -159,7 +112,7 @@
                   ></v-text-field>
                 </v-col>
 
-                <v-col cols="12" md="6">
+                <v-col cols="12" sm="6">
                   <v-menu
                     v-model="dateMenu"
                     :close-on-content-click="false"
@@ -183,7 +136,7 @@
                   </v-menu>
                 </v-col>
 
-                <v-col cols="12" md="6">
+                <v-col cols="12" sm="6">
                   <v-text-field
                     v-model.number="editingMeal.servings"
                     label="Servings"
@@ -201,46 +154,12 @@
                 </v-col>
 
                 <v-col cols="12">
-                  <h4 class="text-h6 mb-4">Ingredients</h4>
-                  <v-row v-for="(ingredient, index) in editingMeal.ingredients" :key="index">
-                    <v-col cols="12" md="4">
-                      <v-text-field
-                        v-model="ingredient.name"
-                        label="Name"
-                        required
-                      ></v-text-field>
-                    </v-col>
-                    <v-col cols="12" md="3">
-                      <v-text-field
-                        v-model="ingredient.amount"
-                        label="Amount"
-                        required
-                      ></v-text-field>
-                    </v-col>
-                    <v-col cols="12" md="3">
-                      <v-text-field
-                        v-model="ingredient.unit"
-                        label="Unit"
-                        required
-                      ></v-text-field>
-                    </v-col>
-                    <v-col cols="12" md="2" class="d-flex align-center">
-                      <v-btn
-                        icon="mdi-delete"
-                        color="error"
-                        variant="text"
-                        @click="removeIngredient(index)"
-                      ></v-btn>
-                    </v-col>
-                  </v-row>
-                  <v-btn
-                    color="primary"
-                    variant="text"
-                    @click="addIngredient"
-                    class="mt-2"
-                  >
-                    Add Ingredient
-                  </v-btn>
+                  <IngredientList
+                    :ingredients="editingMeal.ingredients"
+                    :editable="true"
+                    @add="addIngredient"
+                    @remove="removeIngredient"
+                  />
                 </v-col>
 
                 <v-col cols="12">
@@ -254,22 +173,10 @@
                 </v-col>
 
                 <v-col cols="12">
-                  <h4 class="text-h6 mb-4">Nutrition Information</h4>
-                  <v-row>
-                    <v-col
-                      v-for="(value, key) in editingMeal.nutrition.per_serving"
-                      :key="key"
-                      cols="6"
-                      md="3"
-                    >
-                      <v-text-field
-                        v-model.number="editingMeal.nutrition.per_serving[key]"
-                        :label="formatNutritionKey(key)"
-                        type="number"
-                        required
-                      ></v-text-field>
-                    </v-col>
-                  </v-row>
+                  <NutritionInfo
+                    :nutrition="editingMeal.nutrition"
+                    :editable="true"
+                  />
                 </v-col>
               </v-row>
             </v-form>
@@ -303,6 +210,11 @@ import { format, eachDayOfInterval, startOfWeek, endOfWeek } from 'date-fns'
 import { useMealsStore } from '../stores/meals'
 import { storeToRefs } from 'pinia'
 import { supabase } from '../config/supabase'
+import { useAuthStore } from '../stores/auth'
+import MealCard from '../components/MealCard.vue'
+import NutritionInfo from '../components/NutritionInfo.vue'
+import IngredientList from '../components/IngredientList.vue'
+import WeekNavigation from '../components/WeekNavigation.vue'
 
 const store = useMealsStore()
 const { weeklyMeals, loading, error, currentWeekStart } = storeToRefs(store)
