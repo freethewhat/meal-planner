@@ -8,16 +8,17 @@
             Previous
           </v-btn>
 
-          <div class="d-flex gap-4">
+          <div class="d-flex align-center gap-4">
             <v-btn
-              v-for="date in weekDates"
-              :key="date"
-              @click="store.setCurrentWeek(date)"
-              :color="isCurrentWeek(date) ? 'primary' : undefined"
+              @click="goToCurrentWeek"
               variant="text"
+              :color="isCurrentWeekSelected ? 'primary' : undefined"
             >
-              {{ format(parseDate(date), 'EEE') }}
+              This Week
             </v-btn>
+            <div class="text-h6">
+              {{ format(parseDate(weekDates[0]), 'MMM d') }} - {{ format(parseDate(weekDates[6]), 'MMM d, yyyy') }}
+            </div>
           </div>
 
           <v-btn @click="store.nextWeek" variant="outlined">
@@ -402,6 +403,16 @@ const formatNutritionKey = (key) => {
     .replace(/_/g, ' ')
     .replace(/([A-Z])/g, ' $1')
     .replace(/^./, str => str.toUpperCase())
+}
+
+const isCurrentWeekSelected = computed(() => {
+  const today = new Date()
+  const weekStart = startOfWeek(today, { weekStartsOn: 1 })
+  return format(weekStart, 'yyyy-MM-dd') === format(currentWeekStart.value, 'yyyy-MM-dd')
+})
+
+const goToCurrentWeek = () => {
+  store.setCurrentWeek(new Date())
 }
 
 onMounted(() => {
