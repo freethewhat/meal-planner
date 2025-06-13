@@ -1,0 +1,99 @@
+{
+  "meals": [
+    {
+      "id": 10,
+      "name": "Skillet Chicken Fajita Bowls",
+      "day": "Wednesday",
+      "time": "10 minutes prep + 15 minutes cook",
+      "description": "Bold Mexican flavors in a build-your-own bowl style, mild base with optional heat",
+      "servings": 4,
+      "nutrition": {
+        "per_serving": {
+          "calories": 410,
+          "protein_g": 36,
+          "carbs_g": 22,
+          "net_carbs_g": 18,
+          "fiber_g": 4,
+          "sugar_g": 5,
+          "fat_g": 20,
+          "saturated_fat_g": 4,
+          "sodium_mg": 540
+        }
+      },
+      "ingredients": [
+        { "name": "Chicken breast (sliced)", "amount": "1.5", "unit": "lbs" },
+        { "name": "Frozen bell pepper & onion mix", "amount": "1", "unit": "bag" },
+        { "name": "Olive oil", "amount": "1", "unit": "tbsp" },
+        { "name": "Chili-lime or fajita seasoning", "amount": "1.5", "unit": "tbsp" },
+        { "name": "Microwave brown rice", "amount": "2", "unit": "packets" },
+        { "name": "Canned black beans (low sodium)", "amount": "1", "unit": "can 15oz" },
+        { "name": "Toppings: avocado, Greek yogurt, lime", "amount": "to taste", "unit": "" },
+        { "name": "Optional: hot sauce or salsa for adults", "amount": "to taste", "unit": "" }
+      ],
+      "instructions": "1. Heat oil in skillet, cook chicken until browned\n2. Add frozen peppers/onions and seasoning, sauté 5–7 mins\n3. Heat beans and rice separately\n4. Build bowls with rice, beans, chicken mixture, and toppings"
+    },
+    {
+      "id": 11,
+      "name": "Lentil & Veggie Curry (Instant Pot)",
+      "day": "Friday",
+      "time": "5 minutes prep + 8 minutes cook + pressure release",
+      "description": "A creamy coconut lentil curry that’s hearty, family-friendly, and low spice",
+      "servings": 4,
+      "nutrition": {
+        "per_serving": {
+          "calories": 390,
+          "protein_g": 19,
+          "carbs_g": 34,
+          "net_carbs_g": 27,
+          "fiber_g": 7,
+          "sugar_g": 5,
+          "fat_g": 18,
+          "saturated_fat_g": 7,
+          "sodium_mg": 420
+        }
+      },
+      "ingredients": [
+        { "name": "Dry green or brown lentils", "amount": "1", "unit": "cup" },
+        { "name": "Coconut milk (light or full-fat)", "amount": "1", "unit": "can 14oz" },
+        { "name": "Frozen spinach or chopped kale", "amount": "1", "unit": "cup" },
+        { "name": "Frozen cauliflower or mixed vegetables", "amount": "1", "unit": "bag" },
+        { "name": "Garlic (minced)", "amount": "1", "unit": "tsp" },
+        { "name": "Curry powder (mild)", "amount": "1.5", "unit": "tbsp" },
+        { "name": "Low-sodium broth", "amount": "2", "unit": "cups" },
+        { "name": "Optional: chili flakes or sambal on side", "amount": "to taste", "unit": "" }
+      ],
+      "instructions": "1. Add rinsed lentils, broth, curry powder, garlic, coconut milk, and frozen vegetables to Instant Pot\n2. Stir to combine\n3. Pressure cook on HIGH for 8 minutes, quick release\n4. Stir and serve; add chili flakes to adult portions if desired"
+    },
+    {
+      "id": 3,
+      "name": "No-Cook Protein Bowls",
+      "day": "Monday",
+      "time": "5 minutes assembly",
+      "description": "Zero cooking required - perfect for busy weekdays",
+      "servings": 4,
+      "nutrition": {
+        "per_serving": {
+          "calories": 380,
+          "protein_g": 28,
+          "carbs_g": 22,
+          "net_carbs_g": 18,
+          "fiber_g": 4,
+          "sugar_g": 4,
+          "fat_g": 22,
+          "saturated_fat_g": 3,
+          "sodium_mg": 420
+        }
+      },
+      "ingredients": [
+        { "name": "Rotisserie chicken (pre-shredded)", "amount": "1", "unit": "container" },
+        { "name": "Pre-washed salad kit", "amount": "2", "unit": "bags" },
+        { "name": "Canned chickpeas", "amount": "1", "unit": "can 15oz" },
+        { "name": "Cherry tomatoes", "amount": "1", "unit": "container" },
+        { "name": "Cucumber (pre-sliced)", "amount": "1", "unit": "container" },
+        { "name": "Avocado", "amount": "1.5", "unit": "whole" },
+        { "name": "Olive oil vinaigrette", "amount": "1", "unit": "bottle" }
+      ],
+      "instructions": "1. Open and drain chickpeas, rinse quickly\n2. Assemble salad kits in bowls\n3. Top with chicken, chickpeas, tomatoes, cucumber\n4. Add sliced avocado\n5. Drizzle with dressing\n6. Eat from bowl - one dish per person!"
+    }
+  ]
+}
