@@ -13,6 +13,6 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
     persistSession: true,
     detectSessionInUrl: true,
     flowType: 'pkce',
-    redirectTo: window.location.origin + import.meta.env.BASE_URL
+    redirectTo: window.location.href
   }
 }) 
