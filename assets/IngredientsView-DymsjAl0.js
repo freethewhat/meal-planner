@@ -1,0 +1,17 @@
+import{u as M,s as x,e as p,f as u}from"./meals-DY4XG922.js";import{s as C,d as W,e as O,o as D,c as i,a as s,u as n,F as f,r as v,n as L,t as d,b as r}from"./index-DZOtdpZX.js";import{e as $}from"./eachDayOfInterval-BaU4N5W-.js";const E={class:"space-y-6"},I={class:"bg-white shadow rounded-lg p-4"},j={class:"flex items-center justify-between"},B={class:"flex items-center space-x-4"},F=["onClick"],N={key:0,class:"flex justify-center"},P={key:1,class:"text-red-500"},V={key:2,class:"bg-white shadow rounded-lg overflow-hidden"},z={class:"px-6 py-4 border-b border-gray-200"},A={class:"text-lg font-medium text-gray-900"},R={class:"divide-y divide-gray-200"},T={class:"flex items-center justify-between"},q={class:"flex items-center"},G=["onChange","checked"],H={class:"ml-3 text-gray-900"},J={class:"text-gray-500"},Y={__name:"IngredientsView",setup(K){const a=M(),{weeklyIngredients:y,loading:b,error:g,currentWeekStart:c}=C(a),l=W([]),k=O(()=>{const o=x(c.value,{weekStartsOn:1}),t=p(c.value,{weekStartsOn:1});return $({start:o,end:t}).map(e=>u(e,"yyyy-MM-dd"))}),_=o=>{const t=new Date,e=x(t,{weekStartsOn:1}),m=p(t,{weekStartsOn:1}),h=new Date(o);return h>=e&&h<=m},w=o=>{const t=l.value.indexOf(o.name);t===-1?l.value.push(o.name):l.value.splice(t,1)},S=()=>{const o=window.open("","_blank"),t=y.value.filter(e=>!l.value.includes(e.name)).map(e=>`${e.amount} ${e.unit} ${e.name}`).join(`
+`);o.document.write(`
+    <html>
+      <head>
+        <title>Shopping List</title>
+        <style>
+          body { font-family: Arial, sans-serif; padding: 20px; }
+          h1 { margin-bottom: 20px; }
+          .ingredients { white-space: pre-line; }
+        </style>
+      </head>
+      <body>
+        <h1>Shopping List</h1>
+        <div class="ingredients">${t}</div>
+      </body>
+    </html>
+  `),o.document.close(),o.print()};return D(()=>{a.fetchMeals()}),(o,t)=>(r(),i("div",E,[s("div",I,[s("div",j,[s("button",{onClick:t[0]||(t[0]=(...e)=>n(a).previousWeek&&n(a).previousWeek(...e)),class:"inline-flex items-center px-3 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"}," Previous "),s("div",B,[(r(!0),i(f,null,v(k.value,e=>(r(),i("button",{key:e,onClick:m=>n(a).setCurrentWeek(e),class:L([_(e)?"bg-indigo-100 text-indigo-700":"text-gray-700 hover:bg-gray-50","px-3 py-2 rounded-md text-sm font-medium"])},d(n(u)(new Date(e),"EEE")),11,F))),128))]),s("button",{onClick:t[1]||(t[1]=(...e)=>n(a).nextWeek&&n(a).nextWeek(...e)),class:"inline-flex items-center px-3 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"}," Next ")])]),n(b)?(r(),i("div",N,t[2]||(t[2]=[s("div",{class:"animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-500"},null,-1)]))):n(g)?(r(),i("div",P,d(n(g)),1)):(r(),i("div",V,[s("div",z,[s("h2",A," Shopping List for "+d(n(u)(n(c),"MMMM d"))+" - "+d(n(u)(n(p)(n(c),{weekStartsOn:1}),"MMMM d, yyyy")),1)]),s("div",R,[(r(!0),i(f,null,v(n(y),e=>(r(),i("div",{key:e.name,class:"px-6 py-4"},[s("div",T,[s("div",q,[s("input",{type:"checkbox",class:"h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded",onChange:m=>w(e),checked:l.value.includes(e.name)},null,40,G),s("span",H,d(e.name),1)]),s("div",J,d(e.amount)+" "+d(e.unit),1)])]))),128))]),s("div",{class:"px-6 py-4 bg-gray-50"},[s("button",{onClick:S,class:"inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700"}," Print Shopping List ")])]))]))}};export{Y as default};
