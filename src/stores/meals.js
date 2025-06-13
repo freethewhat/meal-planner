@@ -77,9 +77,13 @@ export const useMealsStore = defineStore('meals', {
 
     async addMeal(meal) {
       try {
+        // Ensure we're working with just the date portion in YYYY-MM-DD format
+        const date = new Date(meal.date)
+        const formattedDate = format(date, 'yyyy-MM-dd')
+        
         const { data, error } = await supabase
           .from('meals')
-          .insert([meal])
+          .insert([{ ...meal, date: formattedDate }])
           .select()
         
         if (error) throw error
@@ -91,13 +95,21 @@ export const useMealsStore = defineStore('meals', {
 
     async updateMeal(id, updates) {
       try {
+        console.log('Store updateMeal - received date:', updates.date)
+        // Ensure we're working with just the date portion in YYYY-MM-DD format
+        const date = new Date(updates.date)
+        console.log('Store updateMeal - parsed date:', date)
+        const formattedDate = format(date, 'yyyy-MM-dd')
+        console.log('Store updateMeal - formatted date:', formattedDate)
+        
         const { data, error } = await supabase
           .from('meals')
-          .update(updates)
+          .update({ ...updates, date: formattedDate })
           .eq('id', id)
           .select()
         
         if (error) throw error
+        console.log('Store updateMeal - response data:', data[0])
         const index = this.meals.findIndex(m => m.id === id)
         if (index !== -1) {
           this.meals[index] = data[0]
